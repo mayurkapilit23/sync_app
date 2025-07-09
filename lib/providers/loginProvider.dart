@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sync_app/repositories/repo.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -8,6 +11,12 @@ class LoginProvider extends ChangeNotifier {
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
+
+  //for logout the user
+  // Future<void> logoutUser() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.remove('isLoggedIn');
+  // }
 
   Future<bool> login(BuildContext context) async {
     const loginApi = 'http://192.168.15.201:4000/todo/sign_in';
@@ -27,6 +36,16 @@ class LoginProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         print('Login successful: ${response.body}');
+        Map<String, dynamic> responseBody = json.decode(response.body);
+        int userId = responseBody['data']['user_id'];
+
+        print('User ID: $userId');
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        //save user login
+        await prefs.setBool('isLoggedIn', true);
+        await prefs.setInt('user_id', userId);
+
         return true;
       } else {
         print('Login failed. Status code: ${response.statusCode}');

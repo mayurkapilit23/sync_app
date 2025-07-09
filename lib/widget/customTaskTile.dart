@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../model/taskModel.dart';
+import '../providers/taskProvider.dart';
 
 class CustomTaskTile extends StatelessWidget {
   final Task task;
   final deleteTask;
-  final  onToggleStatus;
+  final onToggleStatus;
 
   const CustomTaskTile({
     super.key,
     required this.task,
     this.deleteTask,
-     this.onToggleStatus,
+    this.onToggleStatus,
   });
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TaskProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
@@ -25,8 +28,14 @@ class CustomTaskTile extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(task.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-            IconButton(icon: const Icon(Icons.delete, size: 18), onPressed: deleteTask),
+            Text(
+              task.title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, size: 18, color: Colors.red),
+              onPressed: deleteTask,
+            ),
           ],
         ),
         subtitle: Column(
@@ -34,7 +43,10 @@ class CustomTaskTile extends StatelessWidget {
           children: [
             const SizedBox(height: 4),
             if (task.description != null && task.description!.isNotEmpty)
-              Text(task.description!, style: TextStyle(color: Colors.grey[600])),
+              Text(
+                task.description!,
+                style: TextStyle(color: Colors.grey[600]),
+              ),
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,16 +56,26 @@ class CustomTaskTile extends StatelessWidget {
                   '${task.updated_on}',
                   style: const TextStyle(fontSize: 12),
                 ),
+                task.status == 'loading'
+                    ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(),
+                      )
+                    : Container(),
                 Row(
                   children: [
-                    Icon(Icons.pending)
-                    // const Text('Mark as completed'),
-                    // Checkbox(
-                    //   value: task.status == 'done',
-                    //   onChanged: (_) => onToggleStatus(),
-                    // ),
+                    task.status == 'synced'
+                        ? Icon(Icons.cloud_sync, color: Colors.green)
+                        : Icon(Icons.pending, color: Colors.yellow),
                   ],
                 ),
+
+                // Row(
+                //   children: [
+                //     Icon(Icons.pending), Text('${task.status}')
+                //   ],
+                // )
               ],
             ),
           ],

@@ -42,6 +42,9 @@ dependencies:
   provider:
   uuid:
   socket_io_client:
+  shared_preferences:
+  font_awesome_flutter:
+  intl:
 
 
 dev_dependencies:
@@ -96,6 +99,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+  assets:
+    - lib/database/
+
 
 
 

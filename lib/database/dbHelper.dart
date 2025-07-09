@@ -4,7 +4,9 @@ import '../model/taskModel.dart';
 
 class DBHelper {
   static final DBHelper _instance = DBHelper._internal();
+
   factory DBHelper() => _instance;
+
   DBHelper._internal();
 
   static Database? _db;
@@ -22,15 +24,13 @@ class DBHelper {
       path,
       version: 1,
       onCreate: (db, version) {
-        return db.execute(
-            '''CREATE TABLE tasks (
+        return db.execute('''CREATE TABLE tasks (
               id TEXT PRIMARY KEY,
               title TEXT,
               description TEXT,
               updated_on TEXT,
               status TEXT
-          )'''
-        );
+          )''');
       },
     );
   }
@@ -58,5 +58,16 @@ class DBHelper {
   Future<int> deleteAllTasks() async {
     final db = await database;
     return await db.delete('tasks');
+  }
+
+  // Update task by ID
+  Future<int> updateTask(Task task) async {
+    final db = await database;
+    return await db.update(
+      'tasks', // table name
+      task.toMap(), // updated values
+      where: 'id = ?', // match by id
+      whereArgs: [task.id],
+    );
   }
 }
