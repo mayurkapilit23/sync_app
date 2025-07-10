@@ -56,13 +56,13 @@ class CustomTaskTile extends StatelessWidget {
                   '${task.updated_on}',
                   style: const TextStyle(fontSize: 12),
                 ),
-                task.status == 'loading'
-                    ? SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(),
-                      )
-                    : Container(),
+                // task.status == 'loading'
+                //     ? SizedBox(
+                //         width: 20,
+                //         height: 20,
+                //         child: CircularProgressIndicator(),
+                //       )
+                //     : Container(),
                 Row(
                   children: [
                     task.status == 'synced'

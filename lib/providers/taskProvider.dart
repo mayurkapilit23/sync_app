@@ -78,14 +78,15 @@ class TaskProvider extends ChangeNotifier {
   }
 
   void backup(Task task, SocketService socket) async {
-    // _isBackupLoading = true;
-    task.status='loading';
+    _isBackupLoading = true;
+    // task.status = 'loading';
     notifyListeners();
     await Future.delayed(Duration(seconds: 2));
     socket.sendTaskList([task]);
 
-    // _isBackupLoading = false;
-    task.status='synced';
+    _isBackupLoading = false;
+    // task.status = 'synced';
+
     notifyListeners();
   }
 

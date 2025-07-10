@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 class Repo {
@@ -40,20 +39,4 @@ class Repo {
       throw Exception(e.toString());
     }
   }
-
-  // Future<http.Response?> uploadTask(String taskTitle) async {
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse('https://example.com/api/todos'),
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json; charset=UTF-8',
-  //       },
-  //       body: jsonEncode(<String, String>{'title': taskTitle}),
-  //     );
-  //     return response;
-  //   } catch (e) {
-  //     print('Error uploading task: $e');
-  //     return null;
-  //   }
-  // }
 }
